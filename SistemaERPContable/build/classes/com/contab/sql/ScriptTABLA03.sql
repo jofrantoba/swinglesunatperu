@@ -1,0 +1,32 @@
+create or replace function MANTANTABLA03(IDTABLA03 in VARCHAR2,COMPANIA in VARCHAR2,BANCO in VARCHAR2,NUMEROCUENTA in VARCHAR2,CODSUNAT in VARCHAR2,TIPO in VARCHAR2,operacion in number) return number 
+ AS 
+ begin 
+ if(operacion = 1)then 
+ INSERT INTO TABLA03 (IDTABLA03,COMPANIA,BANCO,NUMEROCUENTA,CODSUNAT,TIPO) values ( IDTABLA03,COMPANIA,BANCO,NUMEROCUENTA,CODSUNAT,TIPO)  
+commit; 
+return 1; 
+ elsif(operacion = 2)then 
+ UPDATE TABLA03 SET COMPANIA = COMPANIA,BANCO = BANCO,NUMEROCUENTA = NUMEROCUENTA,CODSUNAT = CODSUNAT,TIPO = TIPO where IDTABLA03 = IDTABLA03 ; 
+commit; 
+return 2; 
+ elsif(operacion = 3)then 
+DELETE from TABLA03 where IDTABLA03 = IDTABLA03 ; 
+commit; 
+return 3; 
+ else 
+return 0; 
+end if; 
+exception 
+WHEN NO_DATA_FOUND THEN 
+return -1; 
+WHEN OTHERS THEN 
+return -1; 
+end MANTANTABLA03;  
+  
+  
+  CREATE OR REPLACE FUNCTION CONSULTATABLA03 RETURN types.ref_cursor 
+   IS lista types.ref_cursor; 
+ BEGIN 
+  OPEN lista FOR SELECT * FROM TABLA03; 
+   RETURN(lista); 
+   END CONSULTATABLA03; 
